@@ -101,8 +101,6 @@ if "gee_initialized" not in st.session_state:
 
     st.session_state["gee_initialized"] = True
 
-st.success("Google Earth Engine initialized successfully!")
-
 
 
 # Define assets ==================================================================================================================================================
@@ -1677,3 +1675,4 @@ with tab2:
                         )
 
                         st.pyplot(fig) 
+
