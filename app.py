@@ -89,11 +89,20 @@ st.markdown("<hr style='border:2px solid #0d6efd'>", unsafe_allow_html=True)
 
 
 # Initialize GEE =================================================================================================================================================
-if 'gee_initialized' not in st.session_state:
+if "gee_initialized" not in st.session_state:
     with st.spinner("Initializing Google Earth Engine..."):
-        ee.Authenticate()  # only needed first time
-        ee.Initialize(project='rice-mapping-472904')
-    st.session_state['gee_initialized'] = True  # mark as initialized
+        # Load service account from Streamlit Secrets
+        service_account = st.secrets["earthengine"]["service_account"]
+        private_key = st.secrets["earthengine"]["private_key"]
+
+        # Initialize EE with service account
+        credentials = ee.ServiceAccountCredentials(service_account, key_data=private_key)
+        ee.Initialize(credentials)
+
+    st.session_state["gee_initialized"] = True
+
+st.success("Google Earth Engine initialized successfully!")
+
 
 
 # Define assets ==================================================================================================================================================
@@ -1666,4 +1675,5 @@ with tab2:
                             fontsize=8,
                             ncol=4
                         )
+
                         st.pyplot(fig) 
